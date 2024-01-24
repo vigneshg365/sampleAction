@@ -13,8 +13,9 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
-        java-version: '8'
+          distribution: 'adopt'
+          java-version: '8'
+
     - name: Build with Maven
       run: mvn clean install
     - name: SonarQube analysis
