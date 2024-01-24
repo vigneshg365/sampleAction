@@ -20,14 +20,19 @@ jobs:
       run: mvn clean install
     - name: SonarQube analysis
       run : mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
-    - name: Deploy to Tomcat
-      uses: appleboy/tomcat-deploy@v2
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.VIKI_PRIVATE}}
+        
+    - name: Copy WAR to Tomcat server
+      uses: appleboy/scp-action@v2
       with:
         host: ${{ secrets.TOMCAT_HOST }}
         port: ${{ secrets.TOMCAT_SSH_PORT }}
-        local_file: './target/sample.war'
-        remote_file: '/home/vvdn/Tomcat/apache-tomcat-9.0.46/webapps/sample.war'
-        username: 'vvdn'
+        key: ${{ secrets.VIKI_PRIVATE }}
+        source: './target/sample.war'
+        target: 'vvdn@172.20.10.8:/home/vvdn/Tomcat/apache-tomcat-9.0.46/webapps/sample.war'
+        
 
   
