@@ -21,4 +21,13 @@ jobs:
     - name: SonarQube analysis
       run : mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
+    - name: Deploy to Tomcat
+      uses: appleboy/tomcat-deploy@v2
+      with:
+        host: ${{ secrets.TOMCAT_HOST }}
+        port: ${{ secrets.TOMCAT_SSH_PORT }}
+        local_file: './target/sample.war'
+        remote_file: '/home/vvdn/Tomcat/apache-tomcat-9.0.46/webapps/sample.war'
+        username: 'vvdn'
+
   
