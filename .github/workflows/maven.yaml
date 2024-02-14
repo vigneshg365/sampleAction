@@ -25,14 +25,6 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.VIKI_PRIVATE}}
         
-    - name: Copy WAR to Tomcat server
-      uses: appleboy/scp-action@v2
-      with:
-        host: ${{ secrets.TOMCAT_HOST }}
-        port: ${{ secrets.TOMCAT_SSH_PORT }}
-        key: ${{ secrets.VIKI_PRIVATE }}
-        source: './target/sample.war'
-        target: 'vvdn@172.20.10.8:/home/vvdn/Tomcat/apache-tomcat-9.0.46/webapps/sample.war'
         
     - name: print out example job
       uses: appleboy/ssh-action@v0.1.10
