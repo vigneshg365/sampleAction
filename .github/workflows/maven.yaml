@@ -34,5 +34,16 @@ jobs:
         source: './target/sample.war'
         target: 'vvdn@172.20.10.8:/home/vvdn/Tomcat/apache-tomcat-9.0.46/webapps/sample.war'
         
+    - name: print out example job
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+          host: ${{ inputs.hostname }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          command_timeout: 30m
+          script: | 
+            echo "Nice Job!!!"
+        
 
   
