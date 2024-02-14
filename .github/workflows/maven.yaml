@@ -19,14 +19,9 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
     - name: SonarQube analysis
-      run : mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      run : mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}      
+        
     - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.VIKI_PRIVATE}}
-        
-        
-    - name: print out example job
       uses: appleboy/ssh-action@v0.1.10
       with:
           host: ${{ secrets.HOSTNAME }}
