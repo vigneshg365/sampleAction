@@ -20,7 +20,7 @@ jobs:
       run: mvn clean install     
 
     - name: Transfer build file to remote server
-      run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }}:/home/vvdn/
+      run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
 
 
     - name: Set up SSH to remote 2
