@@ -35,17 +35,7 @@ jobs:
             mkdir example_folder
             echo "Folder 'example_folder' created successfully."  
             
-    - name: Set up SSH to remote 1
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-          host: ${{ secrets.HOSTNAME }}
-          port: ${{secrets.PORT}}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          command_timeout: 30m
-          script: | 
-            mkdir example_folder
-            echo "Folder 'example_folder' created successfully."
+   
 
     
             
