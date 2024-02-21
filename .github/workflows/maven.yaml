@@ -23,8 +23,19 @@ jobs:
       run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }}:/home/vvdn/
 
 
-        
-    - name: Set up SSH
+    - name: Set up SSH to remote 2
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+          host: ${{ secrets.HOSTNAME_2 }}
+          port: ${{secrets.PORT}}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY_2 }}
+          command_timeout: 30m
+          script: | 
+            mkdir example_folder
+            echo "Folder 'example_folder' created successfully."  
+            
+    - name: Set up SSH to remote 1
       uses: appleboy/ssh-action@v0.1.10
       with:
           host: ${{ secrets.HOSTNAME }}
@@ -35,6 +46,8 @@ jobs:
           script: | 
             mkdir example_folder
             echo "Folder 'example_folder' created successfully."
+
+    
             
   
 
