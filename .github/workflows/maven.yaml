@@ -32,10 +32,15 @@ jobs:
           key: ${{ secrets.KEY }}
           command_timeout: 30m
           script: | 
-            ./home/vvdn/Documents/apache-tomcat-9.0.73/bin/shutdown.sh
+            cd /home/vvdn/Documents/apache-tomcat-9.0.73/bin
+            ls
+            ./shutdown.sh
             cp /home/vvdn/*.war /home/vvdn/Documents/apache-tomcat-9.0.73/webapps/
-            ./home/vvdn/Documents/apache-tomcat-9.0.73/bin/startup.sh
-            tail -2f ./home/vvdn/Documents/apache-tomcat-9.0.73/logs/catalina.out
+            ./startup.sh
+            pwd
+            tail -2f ../logs/catalina.out
+            
+            
             
    
 
