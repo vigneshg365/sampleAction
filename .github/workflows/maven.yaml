@@ -33,6 +33,13 @@ jobs:
           script: | 
             mkdir example_folder
             echo "Folder 'example_folder' created successfully."  
+            cd /home/vvdn/Documents/apache-tomcat-9.0.73/bin
+            ls
+            ./shutdown.sh
+            cp /home/vvdn/*.war /home/vvdn/Documents/apache-tomcat-9.0.73/webapps/
+            ./startup.sh
+            pwd
+            tail -2f ../logs/catalina.out
 
 
 
