@@ -36,7 +36,7 @@ jobs:
             cd /home/vvdn/Documents/apache-tomcat-9.0.73/bin
             ls
             ./shutdown.sh
-            cp /home/vvdn/*.war /home/vvdn/Documents/apache-tomcat-9.0.73/webapps/
+            cp /home/vvdn/*.war /home/vvdn/Documents/apache/apache-tomcat-9.0.73/webapps/
             ./startup.sh
             pwd
             
