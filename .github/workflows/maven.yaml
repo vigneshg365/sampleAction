@@ -39,7 +39,7 @@ jobs:
             cp /home/vvdn/*.war /home/vvdn/Documents/apache-tomcat-9.0.73/webapps/
             ./startup.sh
             pwd
-            tail -2f ../logs/catalina.out
+            
 
 
 
