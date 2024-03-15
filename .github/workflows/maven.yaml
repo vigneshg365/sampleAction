@@ -21,11 +21,11 @@ jobs:
 
     - name: Local Deployment
       run: |
-        cp target/*.war /home/vvdn/
+        cp target/*.war /home/vvdn/Documents/
         cd /home/vvdn/Tomcat/apache-tomcat-9.0.73/bin
         ./shutdown.sh
         sleep 15
-        cp /home/vvdn/*.war /home/vvdn/Tomcat/apache-tomcat-9.0.73/webapps/
+        cp /home/vvdn/Documents/*.war /home/vvdn/Tomcat/apache-tomcat-9.0.73/webapps/
         ./startup.sh
         
 
