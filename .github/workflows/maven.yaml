@@ -19,6 +19,10 @@ jobs:
     - name: Build with Maven
       run: mvn clean install     
 
+    - name: Run commands
+      run: |
+        mkdir /home/vvdn/Downloads/example_Folder
+
     - name: Transfer build file to remote server2
       run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
 
