@@ -19,9 +19,15 @@ jobs:
     - name: Build with Maven
       run: mvn clean install     
 
-    - name: Run commands
+    - name: Local Deployment
       run: |
-        mkdir /home/vvdn/Downloads/example_Folder
+        cp target/*.war /home/vvdn/
+        cd /home/vvdn/Tomcat/apache-tomcat-9.0.73/bin
+        ./shutdown.sh
+        sleep 15
+        cp /home/vvdn/*.war /home/vvdn/Tomcat/apache-tomcat-9.0.73/webapps/
+        ./startup.sh
+        
 
     - name: Transfer build file to remote server2
       run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
@@ -40,6 +46,7 @@ jobs:
             cd /home/vvdn/Documents/apache/apache-tomcat-9.0.73/bin
             ls
             ./shutdown.sh
+            sleep 15
             cp /home/vvdn/*.war /home/vvdn/Documents/apache/apache-tomcat-9.0.73/webapps/
             ./startup.sh
             pwd
