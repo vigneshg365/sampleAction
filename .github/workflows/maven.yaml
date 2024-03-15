@@ -19,26 +19,24 @@ jobs:
     - name: Build with Maven
       run: mvn clean install     
 
-    - name: Transfer build file to remote server1
-      run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }}:/home/vvdn/
+    - name: Transfer build file to remote server2
+      run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
 
-
-    - name: Set up SSH to remote 1
+    - name: Set up SSH to remote 2
       uses: appleboy/ssh-action@v0.1.10
       with:
-          host: ${{ secrets.HOSTNAME }}
+          host: ${{ secrets.HOSTNAME_2 }}
           port: ${{secrets.PORT}}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.KEY_2 }}
           command_timeout: 30m
           script: | 
-            cd /home/vvdn/Documents/apache-tomcat-9.0.73/bin
-            ls
-            ./shutdown.sh
-            cp /home/vvdn/*.war /home/vvdn/Documents/apache-tomcat-9.0.73/webapps/
-            ./startup.sh
-            pwd
-            tail -2f ../logs/catalina.out
+            mkdir example_folder
+            echo "Folder 'example_folder' created successfully."  
+
+
+
+
             
             
             
