@@ -22,7 +22,7 @@ jobs:
         cp target/*.war /home/vvdn/Documents/
         cd /home/vvdn/Tomcat/apache-tomcat-9.0.73/bin
         ./shutdown.sh
-        sleep 15
+        sleep 30
         cp /home/vvdn/Documents/*.war /home/vvdn/Tomcat/apache-tomcat-9.0.73/webapps/
         ./startup.sh
         
@@ -42,6 +42,6 @@ jobs:
             cd /home/vvdn/Documents/apache/apache-tomcat-9.0.73/bin
             ls
             ./shutdown.sh
-            sleep 15
+            sleep 30
             cp /home/vvdn/*.war /home/vvdn/Documents/apache/apache-tomcat-9.0.73/webapps/
             ./startup.sh
