@@ -24,7 +24,7 @@ jobs:
         echo "Vickey\$123" | sudo -S su -c '
         ./shutdown.sh    
         pwd
-        sleep 60
+        sleep 30
         cp /home/vvdn/Documents/*.war /home/vvdn/Tomcat/apache-tomcat-9.0.73/webapps/
         ./startup.sh
         '   
