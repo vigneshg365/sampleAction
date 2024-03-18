@@ -21,18 +21,21 @@ jobs:
       run: |
         cp target/*.war /home/vvdn/Documents/
         cd /home/vvdn/Tomcat/apache-tomcat-9.0.73/bin/
-        TOMCAT_PID=$(ps aux | grep '[c]atalina' | awk '{print $2}')
-        if [ -n "$TOMCAT_PID" ]; then
-          echo "Tomcat is running with PID $TOMCAT_PID. Shutting down..."
-          kill -9 $TOMCAT_PID
-        else
-          echo "Tomcat is not running."
-        fi
+        echo "Vickey$1234" | sudo -S su -c "
+          TOMCAT_PID=\$(ps aux | grep '[c]atalina' | awk '{print \$2}')
+          if [ -n \"\$TOMCAT_PID\" ]; then
+            echo \"Tomcat is running with PID \$TOMCAT_PID. Shutting down...\"
+            kill -9 \$TOMCAT_PID
+          else
+            echo \"Tomcat is not running.\"
+          fi
+        "
         pwd
         ./shutdown.sh
         sleep 60
         cp /home/vvdn/Documents/*.war /home/vvdn/Tomcat/apache-tomcat-9.0.73/webapps/
         ./startup.sh
+
         
     - name: Transfer build file to remote server2
       run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
