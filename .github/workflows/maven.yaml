@@ -22,14 +22,12 @@ jobs:
         cp target/*.war /home/vvdn/Documents/
         cd /home/vvdn/Tomcat/apache-tomcat-9.0.73/bin/
         echo "Vickey\$123" | sudo -S su -c '
-        ./shutdown.sh                                
-        '
+        ./shutdown.sh    
         pwd
         sleep 60
         cp /home/vvdn/Documents/*.war /home/vvdn/Tomcat/apache-tomcat-9.0.73/webapps/
         ./startup.sh
-
-        
+        '   
     - name: Transfer build file to remote server2
       run: scp -i /root/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
     - name: Set up SSH to remote 2
