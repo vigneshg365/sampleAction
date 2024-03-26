@@ -19,7 +19,7 @@ jobs:
 
     - name: SonarQube Scan
       run: mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN
-        env:
+      env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: Local Deployment
