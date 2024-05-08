@@ -24,7 +24,7 @@ jobs:
       - name: Upload WAR artifact
         uses: actions/upload-artifact@v2
         with:
-          name: my-war-artifact
+          name: sample
           path: target/*.war
     
   DeployDevJumpServer:
@@ -37,7 +37,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy
-        run: echo I am deploying! 
+        run: |
+          ls /home/runner/work/sampleAction/
+          cp target/*.war /home/runner/work/sampleAction/
+          ls /home/runner/work/sampleAction/
 
   DeployDev:
     name: Deploy to Dev 
