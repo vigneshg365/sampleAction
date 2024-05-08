@@ -34,9 +34,7 @@ jobs:
       - name: Copy Files
         run: | 
          pwd
-         ls
-         ls target/
-         cp target/*.war ../sampleAction/
+         cp target/*.war /home/runner/work/sampleAction
 
   DeployDevJumpServer:
     name: Deploy to Dev-Jump Server
@@ -52,9 +50,9 @@ jobs:
       - name: Deploy
         run: |
           pwd
-          ls 
-          #cp target/*.war ../sampleAction/
-          ls  ../sampleAction/
+          #ls 
+          #cp target/*.war /home/runner/work/sampleAction/
+          ls  /home/runner/work/sampleAction
 
   DeployDev:
     name: Deploy to Dev 
