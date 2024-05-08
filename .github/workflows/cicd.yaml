@@ -62,8 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy
-       # run: echo I am deploying! 
-        run: sh myscript.sh
+        run: echo I am deploying! 
             
   DeployProd:
     name: Deploy to Production 
