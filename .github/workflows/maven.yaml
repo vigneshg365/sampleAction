@@ -2,7 +2,7 @@ name: Build Maven Project with Java 8
 on:
   push:
     branches:
-      - main
+      - develop
 jobs:
   build:
     runs-on: self-hosted
