@@ -44,7 +44,8 @@ jobs:
       
       - name: Deploy
         run: |
-          ls sampleAction/target/
+          pwd
+          ls sampleAction/
           cp sampleAction/target/*.war sampleAction/
           ls sampleAction/
 
