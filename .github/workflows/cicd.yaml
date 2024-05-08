@@ -53,8 +53,8 @@ jobs:
         run: |
           pwd
           ls 
-          cp target/*.war ../sampleAction/
-          ls 
+          #cp target/*.war ../sampleAction/
+          ls  ../sampleAction/
 
   DeployDev:
     name: Deploy to Dev 
