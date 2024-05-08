@@ -27,17 +27,12 @@ jobs:
       
       - name: Build with Maven
         run: mvn clean install
-      
-      - name: Upload WAR artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: sample
-          path: /home/runner/work/sampleAction/sampleAction/target/*.war
 
       - name: Copy Files
         run: | 
          pwd
          cp target/*.war /home/runner/work/sampleAction
+         ls
 
   DeployDevServer:
     name: Deploy to Dev Server
@@ -49,17 +44,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Download WAR artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: sample
-          path: /home/runner/work/sampleAction/target/
       - name: Deploy
         run: |
           pwd
-          #ls 
-          #cp target/*.war /home/runner/work/sampleAction/
-          ls  /home/runner/work/sampleAction/target/
 
   DeployProdJumpServer:
     name: Deploy to Prod Jump Server 
