@@ -9,7 +9,7 @@ on:
 
 jobs:
   Build:
-    name : Code Checkout
+    name : Build
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
@@ -38,8 +38,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Deploy
         run: |
-          ls /home/runner/work/sampleAction/
-          cp target/*.war /home/runner/work/sampleAction/
+          ls /home/runner/work/sampleAction/sampleAction/target/
+          cp /home/runner/work/sampleAction/sampleAction/target/sample.war /home/runner/work/sampleAction/
           ls /home/runner/work/sampleAction/
 
   DeployDev:
