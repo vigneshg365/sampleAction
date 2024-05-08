@@ -30,7 +30,7 @@ jobs:
 
       - name: SSH Configure
         run: |
-          echo ${{secrets.SSH_PRIVATEKEY}} > $HOME/.ssh/id_rsa
+          echo "${{secrets.SSH_PRIVATEKEY}}" > $HOME/.ssh/id_rsa
           cat $HOME/.ssh/id_rsa
           chmod 600 $HOME/.ssh/id_rsa
           scp -i $HOME/.ssh/id_rsa target/*war vvdn@172.21.246.220:/home/vvdn/
