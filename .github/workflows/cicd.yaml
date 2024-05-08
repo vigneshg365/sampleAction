@@ -2,31 +2,35 @@ name: CI + CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   Build:
-    name : Build
+    name: Build
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '8'
+      
       - name: Build with Maven
-        run: mvn clean install 
+        run: mvn clean install
+      
       - name: Upload WAR artifact
         uses: actions/upload-artifact@v2
         with:
           name: sample
-          path: /home/runner/work/sampleAction/sampleAction/target/*.war
-    
+          path: sampleAction/target/*.war
+
   DeployDevJumpServer:
     name: Deploy to Dev-Jump Server
     needs: [Build]
@@ -35,12 +39,14 @@ jobs:
       name: DevJumpServer
       url: 'http://www.google.com'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
       - name: Deploy
         run: |
-          ls /home/runner/work/sampleAction/sampleAction/target/
-          cp /home/runner/work/sampleAction/sampleAction/target/sample.war /home/runner/work/sampleAction/
-          ls /home/runner/work/sampleAction/
+          ls sampleAction/target/
+          cp sampleAction/target/*.war sampleAction/
+          ls sampleAction/
 
   DeployDev:
     name: Deploy to Dev 
@@ -50,20 +56,24 @@ jobs:
       name: Development
       url: 'http://www.google.com'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
       - name: Deploy
         run: echo I am deploying! 
     
   DeployStaging:
     name: Deploy to Staging 
-    if: github.event.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     needs: [DeployDev]
     runs-on: ubuntu-latest
     environment: 
       name: JumpServer
       url: 'http://test.myapp.com'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
       - name: Deploy
         run: echo I am deploying! 
             
@@ -75,7 +85,8 @@ jobs:
       name: Production
       url: 'http://www.myapp.com'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
       - name: Deploy
         run: echo I am deploying! 
-    
