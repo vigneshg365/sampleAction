@@ -45,9 +45,9 @@ jobs:
       - name: Deploy
         run: |
           pwd
-          ls sampleAction/
-          cp sampleAction/target/*.war sampleAction/
-          ls sampleAction/
+          ls 
+          cp target/*.war ../sampleAction/
+          ls 
 
   DeployDev:
     name: Deploy to Dev 
