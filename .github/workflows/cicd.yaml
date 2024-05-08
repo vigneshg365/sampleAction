@@ -8,10 +8,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build:
-    name: Build
+  JumpBoxDeploy:
+    name: Jump Box Env
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
+    environment: 
+      name: DevJumpServer
+      url: 'http://www.google.com'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -36,12 +39,12 @@ jobs:
          pwd
          cp target/*.war /home/runner/work/sampleAction
 
-  DeployDevJumpServer:
-    name: Deploy to Dev-Jump Server
-    needs: [Build]
+  DeployDevServer:
+    name: Deploy to Dev Server
+    needs: [JumpBoxDeploy]
     runs-on: ubuntu-latest
     environment: 
-      name: DevJumpServer
+      name: Development
       url: 'http://www.google.com'
     steps:
       - name: Checkout repository
@@ -58,12 +61,12 @@ jobs:
           #cp target/*.war /home/runner/work/sampleAction/
           ls  /home/runner/work/sampleAction/target/
 
-  DeployDev:
-    name: Deploy to Dev 
-    needs: [DeployDevJumpServer]
+  DeployProdJumpServer:
+    name: Deploy to Prod Jump Server 
+    needs: [DeployDevServer]
     runs-on: ubuntu-latest
     environment: 
-      name: Development
+      name: JumpServer
       url: 'http://www.google.com'
     steps:
       - name: Checkout repository
@@ -72,24 +75,9 @@ jobs:
       - name: Deploy
         run: echo I am deploying! 
     
-  DeployStaging:
-    name: Deploy to Staging 
-    if: github.ref == 'refs/heads/main'
-    needs: [DeployDev]
-    runs-on: ubuntu-latest
-    environment: 
-      name: JumpServer
-      url: 'http://test.myapp.com'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      
-      - name: Deploy
-        run: echo I am deploying! 
-            
   DeployProd:
     name: Deploy to Production 
-    needs: [DeployStaging]
+    needs: [DeployProdJumpServer]
     runs-on: ubuntu-latest
     environment: 
       name: Production
