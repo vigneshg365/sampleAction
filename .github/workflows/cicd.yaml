@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: sample
-          path: sampleAction/target/*.war
+          path: /home/runner/work/sampleAction/sampleAction/target/*.war
 
       - name: Copy Files
         run: | 
@@ -46,13 +46,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
+      - name: Download WAR artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: sample
+          path: /home/runner/work/sampleAction/target/
       - name: Deploy
         run: |
           pwd
           #ls 
           #cp target/*.war /home/runner/work/sampleAction/
-          ls  /home/runner/work/sampleAction
+          ls  /home/runner/work/sampleAction/target/
 
   DeployDev:
     name: Deploy to Dev 
