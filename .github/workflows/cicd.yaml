@@ -31,6 +31,13 @@ jobs:
           name: sample
           path: sampleAction/target/*.war
 
+      - name: Copy Files
+      - run: | 
+         pwd
+         ls
+         ls target/
+         cp target/*.war ../sampleAction/
+
   DeployDevJumpServer:
     name: Deploy to Dev-Jump Server
     needs: [Build]
