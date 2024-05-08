@@ -32,7 +32,7 @@ jobs:
           path: sampleAction/target/*.war
 
       - name: Copy Files
-      - run: | 
+        run: | 
          pwd
          ls
          ls target/
