@@ -29,24 +29,7 @@ jobs:
         run: mvn clean install
       - name: Transfer build file to remote server2
         run: scp -i /home/vvdn/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
-      - name: Set up SSH to remote 
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-            host: ${{ secrets.HOSTNAME_2 }}
-            port: ${{secrets.PORT}}
-            username: ${{ secrets.USERNAME }}
-            key: ${{ secrets.KEY_2 }}
-            command_timeout: 30m
-            script: | 
-              mkdir example_folder
-              echo "Folder 'example_folder' created successfully."  
-              cd /home/vvdn/Documents/apache/apache-tomcat-9.0.73/bin
-              ls
-              ./shutdown.sh
-              sleep 30
-              cp /home/vvdn/*.war /home/vvdn/Documents/apache/apache-tomcat-9.0.73/webapps/
-              ./startup.sh
-
+      
 
   DeployDevServer:
     name: Deploy to Dev Server
@@ -58,9 +41,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Deploy
-        run: |
-          pwd
+      - name: Set up SSH to remote 
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+            host: ${{ secrets.DEV_HOSTNAME }}
+            port: ${{secrets.PORT}}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.JUMP_SSH_KEY }}
+            command_timeout: 30m
+            script: | 
+              mkdir example_folder
+              echo "Folder 'example_folder' created successfully."  
+              cd /home/vvdn/Documents/apache/apache-tomcat-9.0.73/bin
+              ls
+              ./shutdown.sh
+              sleep 30
+              cp /home/vvdn/*.war /home/vvdn/Documents/apache/apache-tomcat-9.0.73/webapps/
+              ./startup.sh
+
 
   DeployProdJumpServer:
     name: Deploy to Prod Jump Server 
