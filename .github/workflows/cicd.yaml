@@ -27,8 +27,8 @@ jobs:
       
       - name: Build with Maven
         run: mvn clean install
-      - name: Transfer build file to remote server2
-        run: scp -i /home/vvdn/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
+      - name: Transfer build file to Dev-Jump server
+        run: scp -i /home/vvdn/.ssh/viki_rsa target/*.war ${{ secrets.JUMP_USERNAME }}@${{ secrets.JUMP_HOSTNAME }}:/home/vvdn/
       
 
   DeployDevServer:
@@ -41,23 +41,32 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up SSH to remote 
+      - name: Set up SSH from Local to Jump Server 
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+            host: ${{ secrets.JUMP_HOSTNAME }}
+            port: ${{secrets.PORT}}
+            username: ${{ secrets.JUMP_USERNAME }}
+            key: ${{ secrets.LOCAL_SSH_KEY }}
+            command_timeout: 30m
+            script: | 
+              echo "Logged into Jump Server"
+              
+      - name: Set up SSH from Jump to Dev Server 
         uses: appleboy/ssh-action@v0.1.10
         with:
             host: ${{ secrets.DEV_HOSTNAME }}
             port: ${{secrets.PORT}}
-            username: ${{ secrets.USERNAME }}
+            username: ${{ secrets.DEV_USERNAME }}
             key: ${{ secrets.JUMP_SSH_KEY }}
             command_timeout: 30m
             script: | 
-              mkdir example_folder
-              echo "Folder 'example_folder' created successfully."  
               cd /home/vvdn/Documents/apache/apache-tomcat-9.0.73/bin
-              ls
+              echo "${{secrets.DEV_PASSWORD}}" | sudo -S su -c '
               ./shutdown.sh
               sleep 30
               cp /home/vvdn/*.war /home/vvdn/Documents/apache/apache-tomcat-9.0.73/webapps/
-              ./startup.sh
+              ./startup.sh '
 
 
   DeployProdJumpServer:
