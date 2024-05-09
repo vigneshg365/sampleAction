@@ -11,7 +11,7 @@ jobs:
   JumpBoxDeploy:
     name: Deploy to Dev JumpBox Server
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted,ubuntu-latest]
     environment: 
       name: DevJumpServer
       url: 'http://www.google.com'
@@ -27,26 +27,31 @@ jobs:
       
       - name: Build with Maven
         run: mvn clean install
+      - name: Transfer build file to remote server2
+        run: scp -i /home/vvdn/.ssh/viki_rsa target/*.war ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME_2 }}:/home/vvdn/
+      - name: Set up SSH to remote 
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+            host: ${{ secrets.HOSTNAME_2 }}
+            port: ${{secrets.PORT}}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.KEY_2 }}
+            command_timeout: 30m
+            script: | 
+              mkdir example_folder
+              echo "Folder 'example_folder' created successfully."  
+              cd /home/vvdn/Documents/apache/apache-tomcat-9.0.73/bin
+              ls
+              ./shutdown.sh
+              sleep 30
+              cp /home/vvdn/*.war /home/vvdn/Documents/apache/apache-tomcat-9.0.73/webapps/
+              ./startup.sh
 
-      - name: SSH Configure
-        run: |
-          mkdir -p $HOME/.ssh
-          echo "${{secrets.SSH_PRIVATEKEY}}" > $HOME/.ssh/id_rsa
-          cat $HOME/.ssh/id_rsa
-          chmod 600 $HOME/.ssh/id_rsa
-          echo "Permission to 600"
-          scp -i $HOME/.ssh/id_rsa target/*war vvdn@172.21.246.220:/home/vvdn/
-
-      - name: Copy Files
-        run: | 
-         pwd
-         cp target/*.war /home/runner/work/sampleAction
-         ls
 
   DeployDevServer:
     name: Deploy to Dev Server
     needs: [JumpBoxDeploy]
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted,ubuntu-latest]
     environment: 
       name: Development
       url: 'http://www.google.com'
@@ -60,7 +65,7 @@ jobs:
   DeployProdJumpServer:
     name: Deploy to Prod Jump Server 
     needs: [DeployDevServer]
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted,ubuntu-latest]
     environment: 
       name: JumpServer
       url: 'http://www.google.com'
@@ -74,7 +79,7 @@ jobs:
   DeployProd:
     name: Deploy to Production 
     needs: [DeployProdJumpServer]
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted,ubuntu-latest]
     environment: 
       name: Production
       url: 'http://www.myapp.com'
